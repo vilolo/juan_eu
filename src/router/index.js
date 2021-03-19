@@ -5,6 +5,7 @@ Vue.use(Router)
 
 /* Layout */
 import Layout from '@/layout'
+import juanRouter from './modules/juan'
 
 /* Router Modules */
 
@@ -78,7 +79,8 @@ export const constantRoutes = [
         meta: { title: 'Dashboard', icon: 'dashboard', affix: true }
       }
     ]
-  }
+  },
+  juanRouter
 ]
 
 /**
