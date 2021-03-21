@@ -15,7 +15,7 @@ const juanRouter = {
       path: 'imgdesc',
       component: () => import('@/views/juan/imgdesc'),
       name: 'imgdesc',
-      meta: { title: 'imgdesc' }
+      meta: { title: '图文配置' }
     }
   ]
 }
