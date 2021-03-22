@@ -40,3 +40,11 @@ export function imgDescDel(data) {
     data
   })
 }
+
+export function changeStatus(data) {
+  return request({
+    url: '/img_desc/changeStatus',
+    method: 'post',
+    data
+  })
+}

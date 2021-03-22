@@ -43,13 +43,15 @@
 
       <el-table-column>
         <template slot-scope="{row}">
-          {{ row.status }}
           <el-switch
             v-model="row.status"
             active-color="#13ce66"
             inactive-color="#ff4949"
-            active-value="1"
-            inactive-value="2"
+            :active-value="1"
+            :inactive-value="2"
+            active-text="启用"
+            inactive-text="禁用"
+            @change="changeStatus(row.id,row.status)"
           />
         </template>
       </el-table-column>
@@ -147,7 +149,7 @@
 <script>
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 import waves from '@/directive/waves' // waves directive
-import { imgDescList, uploadApi, imgDescAdd, imgDescCategoryList, imgDescEdit, imgDescDel } from '@/api/juan'
+import { imgDescList, uploadApi, imgDescAdd, imgDescCategoryList, imgDescEdit, imgDescDel, changeStatus } from '@/api/juan'
 import { getToken } from '@/utils/auth'
 export default {
   name: 'ComplexTable',
@@ -229,6 +231,7 @@ export default {
     getList() {
       this.listLoading = true
       imgDescList(this.listQuery).then(response => {
+        console.log(response)
         this.list = response.data.data
         this.total = response.data.total
 
@@ -316,6 +319,11 @@ export default {
           duration: 2000
         })
         this.list.splice(index, 1)
+      })
+    },
+    changeStatus(id, status) {
+      changeStatus({ id: id, status: status }).then(() => {
+        this.$notify.success(status === 1 ? '开启成功' : '关闭成功')
       })
     }
   }
