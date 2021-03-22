@@ -172,6 +172,7 @@ export default {
         desc1: '',
         desc2: '',
         img: '',
+        status: '',
         btn_name: '',
         url: '',
         sort: 50,
@@ -231,7 +232,6 @@ export default {
     getList() {
       this.listLoading = true
       imgDescList(this.listQuery).then(response => {
-        console.log(response)
         this.list = response.data.data
         this.total = response.data.total
 

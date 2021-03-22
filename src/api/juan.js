@@ -18,10 +18,11 @@ export function imgDescAdd(data) {
   })
 }
 
-export function imgDescCategoryList() {
+export function imgDescCategoryList(params) {
   return request({
     url: '/img_desc/categoryList',
-    method: 'get'
+    method: 'get',
+    params: params
   })
 }
 
@@ -44,6 +45,46 @@ export function imgDescDel(data) {
 export function changeStatus(data) {
   return request({
     url: '/img_desc/changeStatus',
+    method: 'post',
+    data
+  })
+}
+
+export function navigationList(params) {
+  return request({
+    url: '/navigation/list',
+    method: 'get',
+    params: params
+  })
+}
+
+export function navigationAdd(data) {
+  return request({
+    url: '/navigation/add',
+    method: 'post',
+    data
+  })
+}
+
+export function navigationStatus(data) {
+  return request({
+    url: '/navigation/changeStatus',
+    method: 'post',
+    data
+  })
+}
+
+export function navigationPList(noId) {
+  return request({
+    url: '/navigation/pList',
+    method: 'get',
+    params: { noId: noId }
+  })
+}
+
+export function navigationEdit(data) {
+  return request({
+    url: '/navigation/edit',
     method: 'post',
     data
   })
