@@ -115,7 +115,9 @@
           </el-upload>
         </el-form-item>
         <el-form-item label="内容">
-          <el-input v-model="formTemp.contents" type="textarea" />
+          <!-- <el-input v-model="formTemp.contents" type="textarea" /> -->
+          <div v-html="contents" />
+          <tinymce v-model="contents" :height="300" />
         </el-form-item>
       </el-form>
 
@@ -134,10 +136,11 @@
 
 <script>
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
+import Tinymce from '@/components/Tinymce'
 import { articleList, uploadApi, articleAdd, acAllList, articleEdit, articleStatus, articleDel } from '@/api/juan'
 import { getToken } from '@/utils/auth'
 export default {
-  components: { Pagination },
+  components: { Pagination, Tinymce },
   filters: {
     imgFilter(img) {
       return process.env.VUE_APP_BASE_API + img
