@@ -133,16 +133,6 @@
         </el-button>
       </div>
     </el-dialog>
-
-    <el-dialog :visible.sync="dialogPvVisible" title="Reading statistics">
-      <el-table :data="pvData" border fit highlight-current-row style="width: 100%">
-        <el-table-column prop="key" label="Channel" />
-        <el-table-column prop="pv" label="Pv" />
-      </el-table>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="dialogPvVisible = false">Confirm</el-button>
-      </span>
-    </el-dialog>
   </div>
 </template>
 
@@ -198,7 +188,6 @@ export default {
         update: 'Edit',
         create: 'Create'
       },
-      dialogPvVisible: false,
       pvData: [],
       rules: {
         category_id: [{ required: true, message: '图文类型必选', trigger: 'blur' }]
@@ -247,13 +236,6 @@ export default {
       this.listQuery.page = 1
       this.getList()
     },
-    handleModifyStatus(row, status) {
-      this.$message({
-        message: '操作Success',
-        type: 'success'
-      })
-      row.status = status
-    },
     resetTemp() {
       this.imageUrl = ''
       this.formTemp = {
@@ -266,7 +248,8 @@ export default {
         url: '',
         sort: 50,
         articalCategoryId: '',
-        articalId: ''
+        articalId: '',
+        status: 1
       }
     },
     handleCreate() {

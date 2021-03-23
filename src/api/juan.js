@@ -89,3 +89,103 @@ export function navigationEdit(data) {
     data
   })
 }
+
+export function companyInfoEdit(data) {
+  return request({
+    url: '/company_info/edit',
+    method: 'post',
+    data
+  })
+}
+
+export function companyInfo() {
+  return request({
+    url: '/company_info/info',
+    method: 'get'
+  })
+}
+
+export function acList() {
+  return request({
+    url: '/article_category/list',
+    method: 'get'
+  })
+}
+
+export function acAdd(data) {
+  return request({
+    url: '/article_category/add',
+    method: 'post',
+    data
+  })
+}
+
+export function acEdit(data) {
+  return request({
+    url: '/article_category/edit',
+    method: 'post',
+    data
+  })
+}
+
+export function acDel(data) {
+  return request({
+    url: '/article_category/del',
+    method: 'post',
+    data
+  })
+}
+
+export function acStatus(data) {
+  return request({
+    url: '/article_category/changeStatus',
+    method: 'post',
+    data
+  })
+}
+
+export function articleList() {
+  return request({
+    url: '/article/list',
+    method: 'get'
+  })
+}
+
+export function articleAdd(data) {
+  return request({
+    url: '/article/add',
+    method: 'post',
+    data
+  })
+}
+
+export function acAllList() {
+  return request({
+    url: '/article_category/allList',
+    method: 'get'
+  })
+}
+
+export function articleEdit(data) {
+  return request({
+    url: '/article/edit',
+    method: 'post',
+    data
+  })
+}
+
+export function articleDel(data) {
+  return request({
+    url: '/article/del',
+    method: 'post',
+    data
+  })
+}
+
+export function articleStatus(data) {
+  return request({
+    url: '/article/changeStatus',
+    method: 'post',
+    data
+  })
+}

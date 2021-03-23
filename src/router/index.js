@@ -5,7 +5,7 @@ Vue.use(Router)
 
 /* Layout */
 import Layout from '@/layout'
-import juanRouter from './modules/juan'
+// import juanRouter from './modules/juan'
 
 /* Router Modules */
 
@@ -80,7 +80,74 @@ export const constantRoutes = [
       }
     ]
   },
-  juanRouter
+  // juanRouter
+  {
+    path: '/navigation',
+    component: Layout,
+    redirect: '/navigation',
+    children: [
+      {
+        path: 'navigation',
+        component: () => import('@/views/juan/navigation'),
+        name: 'navigation',
+        meta: { title: '导航栏配置', icon: 'table', affix: true }
+      }
+    ]
+  },
+  {
+    path: '/company',
+    component: Layout,
+    redirect: '/company',
+    children: [
+      {
+        path: 'company',
+        component: () => import('@/views/juan/company'),
+        name: 'company',
+        meta: { title: '基础信息配置', icon: 'table' }
+      }
+    ]
+  },
+  {
+    path: '/imgdesc',
+    component: Layout,
+    redirect: '/imgdesc',
+    children: [
+      {
+        path: 'imgdesc',
+        component: () => import('@/views/juan/imgdesc'),
+        name: 'imgdesc',
+        meta: { title: '图文配置', icon: 'table' }
+      }
+    ]
+  },
+  {
+    path: '/article',
+    component: Layout,
+    meta: {
+      title: '文章管理',
+      icon: 'table'
+    },
+    children: [
+      {
+        path: 'category',
+        component: () => import('@/views/juan/articleCategory'),
+        name: 'category',
+        meta: { title: '文章分类' }
+      },
+      {
+        path: 'index',
+        component: () => import('@/views/juan/article'),
+        name: 'index',
+        meta: { title: '文章列表' }
+      },
+      {
+        path: 'add',
+        component: () => import('@/views/juan/articleAdd'),
+        name: 'add',
+        meta: { title: '文章编辑' }
+      }
+    ]
+  }
 ]
 
 /**
