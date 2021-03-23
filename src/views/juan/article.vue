@@ -117,7 +117,7 @@
         <el-form-item label="内容">
           <!-- <el-input v-model="formTemp.contents" type="textarea" /> -->
           <div v-html="contents" />
-          <tinymce v-model="contents" :height="300" />
+          <tinymce v-model="formTemp.contents" :height="300" />
         </el-form-item>
       </el-form>
 
