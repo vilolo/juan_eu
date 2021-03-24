@@ -311,7 +311,7 @@ export default {
   }
   .avatar {
     width: 178px;
-    height: 178px;
+    /* height: 178px; */
     display: block;
   }
 </style>

@@ -25,9 +25,6 @@
       <el-form-item label="twitter">
         <el-input v-model="formTemp.twitter" />
       </el-form-item>
-      <el-form-item label="instagram">
-        <el-input v-model="formTemp.instagram" />
-      </el-form-item>
       <el-form-item label="LOGO">
         <el-upload
           class="avatar-uploader"
@@ -36,7 +33,7 @@
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload"
         >
-          <img v-if="imageUrl" :src="imageUrl | imgFilter" class="avatar">
+          <img v-if="imageUrl" :src="imageUrl" class="avatar">
           <i v-else class="el-icon-plus avatar-uploader-icon" />
         </el-upload>
       </el-form-item>
@@ -49,11 +46,6 @@
 import { uploadApi, companyInfoEdit, companyInfo } from '@/api/juan'
 import { getToken } from '@/utils/auth'
 export default {
-  filters: {
-    imgFilter(img) {
-      return process.env.VUE_APP_BASE_API + img
-    }
-  },
   data() {
     return {
       formTemp: {
@@ -79,7 +71,7 @@ export default {
     getInfo() {
       companyInfo().then(response => {
         this.formTemp = Object.assign({}, response.data)
-        this.imageUrl = response.data.logo
+        this.imageUrl = process.env.VUE_APP_BASE_API + response.data.logo
       })
     },
     handleAvatarSuccess(res, file) {
@@ -128,7 +120,7 @@ export default {
   }
   .avatar {
     width: 178px;
-    height: 178px;
+    /* height: 178px; */
     display: block;
   }
 </style>

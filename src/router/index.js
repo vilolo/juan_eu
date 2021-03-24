@@ -139,13 +139,13 @@ export const constantRoutes = [
         component: () => import('@/views/juan/article'),
         name: 'index',
         meta: { title: '文章列表' }
-      },
-      {
-        path: 'add',
-        component: () => import('@/views/juan/articleAdd'),
-        name: 'add',
-        meta: { title: '文章编辑' }
       }
+      // {
+      //   path: 'add',
+      //   component: () => import('@/views/juan/articleAdd'),
+      //   name: 'add',
+      //   meta: { title: '文章编辑' }
+      // }
     ]
   }
 ]

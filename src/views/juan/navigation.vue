@@ -125,6 +125,7 @@ export default {
   },
   methods: {
     handleCreate() {
+      this.pList = this.navigationPList(0)
       this.resetTemp()
       this.dialogStatus = 'create'
       this.dialogFormVisible = true
@@ -158,9 +159,10 @@ export default {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
           navigationAdd(this.formTemp).then(response => {
-            this.list.unshift(this.formTemp)
+            // this.list.unshift(this.formTemp)
             this.dialogFormVisible = false
             this.$notify.success(response.message)
+            this.getList()
           })
         }
       })
@@ -190,10 +192,11 @@ export default {
         if (valid) {
           const tempData = Object.assign({}, this.formTemp)
           navigationEdit(tempData).then(response => {
-            const index = this.list.findIndex(v => v.id === this.formTemp.id)
-            this.list.splice(index, 1, this.formTemp)
+            // const index = this.list.findIndex(v => v.id === this.formTemp.id)
+            // this.list.splice(index, 1, this.formTemp)
             this.dialogFormVisible = false
             this.$notify.success(response.message)
+            this.getList()
           })
         }
       })
