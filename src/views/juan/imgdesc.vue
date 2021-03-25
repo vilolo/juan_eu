@@ -116,14 +116,14 @@
           </el-radio-group>
         </el-form-item>
 
-        <template v-if="formTemp.type === '1' || formTemp.type === '2'">
+        <template v-if="formTemp.type == '1' || formTemp.type == '2'">
           <el-form-item label="文章分类">
             <el-select v-model="formTemp.article_category_id" @change="getArticleList">
               <el-option v-for="item in categoryList" :key="item.index" :value="item.id" :label="item.name" />
             </el-select>
           </el-form-item>
 
-          <el-form-item v-show="formTemp.type === '1'" label="文章列表">
+          <el-form-item v-show="formTemp.type == '1'" label="文章列表">
             <el-select v-model="formTemp.article_id">
               <el-option v-for="item in articleList" :key="item.index" :value="item.id" :label="item.keyword" />
             </el-select>
@@ -188,7 +188,7 @@ export default {
         sort: 50,
         articalCategoryId: '',
         articalId: '',
-        type: 1,
+        type: '1',
         article_id: '',
         article_category_id: ''
       },
@@ -298,7 +298,7 @@ export default {
         articalCategoryId: '',
         articalId: '',
         status: 1,
-        type: 1,
+        type: '1',
         article_id: '',
         article_category_id: ''
       }
@@ -324,7 +324,9 @@ export default {
     },
     handleUpdate(row) {
       this.formTemp = Object.assign({}, row) // copy obj
-      this.imageUrl = process.env.VUE_APP_BASE_API + this.formTemp.img
+      if (this.formTemp.img) {
+        this.imageUrl = process.env.VUE_APP_BASE_API + this.formTemp.img
+      }
       this.dialogStatus = 'update'
       this.dialogFormVisible = true
       this.$nextTick(() => {
@@ -336,10 +338,11 @@ export default {
         if (valid) {
           const tempData = Object.assign({}, this.formTemp)
           imgDescEdit(tempData).then(response => {
-            const index = this.list.findIndex(v => v.id === this.formTemp.id)
-            this.list.splice(index, 1, this.formTemp)
+            // const index = this.list.findIndex(v => v.id === this.formTemp.id)
+            // this.list.splice(index, 1, this.formTemp)
             this.dialogFormVisible = false
             this.$notify.success(response.message)
+            this.getList()
           })
         }
       })
