@@ -90,6 +90,13 @@ export function navigationEdit(data) {
   })
 }
 
+export function navigationTypeList() {
+  return request({
+    url: '/navigation/typeList',
+    method: 'get'
+  })
+}
+
 export function companyInfoEdit(data) {
   return request({
     url: '/company_info/edit',
@@ -144,10 +151,19 @@ export function acStatus(data) {
   })
 }
 
-export function articleList() {
+export function articleList(params) {
   return request({
     url: '/article/list',
-    method: 'get'
+    method: 'get',
+    params: params
+  })
+}
+
+export function articleCategoryList(params) {
+  return request({
+    url: '/article/clist',
+    method: 'get',
+    params: params
   })
 }
 

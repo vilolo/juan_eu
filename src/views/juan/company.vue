@@ -80,16 +80,21 @@ export default {
       this.formTemp.logo = res.data.url
     },
     beforeAvatarUpload(file) {
-      const isJPG = file.type === 'image/jpeg'
+      const imgTypeList = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif']
+      // const isJPG = file.type === 'image/jpeg'
+      const isRightImg = imgTypeList.indexOf(file.type)
       const isLt2M = file.size / 1024 / 1024 < 8
 
-      if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!')
+      // if (!isJPG) {
+      //   this.$message.error('上传图片只能是 JPG 格式!')
+      // }
+      if (isRightImg < 0) {
+        this.$message.error('上传图片格式不正确!')
       }
       if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 8MB!')
+        this.$message.error('上传图片大小不能超过 8MB!')
       }
-      return isJPG && isLt2M
+      return isRightImg && isLt2M
     },
     saveData() {
       companyInfoEdit(this.formTemp).then(() => {

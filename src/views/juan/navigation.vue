@@ -24,9 +24,15 @@
           <span>{{ row.tname }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="跳转地址">
+      <el-table-column label="跳转类型">
         <template slot-scope="{row}">
-          <span>{{ row.url }}</span>
+          <span>{{ row.type_name }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="跳转目标">
+        <template slot-scope="{row}">
+          <span>{{ row.cname }}</span>
+          <span v-if="row.type === 1">/{{ row.keyword }}</span>
         </template>
       </el-table-column>
       <el-table-column label="状态">
@@ -67,9 +73,30 @@
             <el-option v-for="item in pList" :key="item.index" :label="item.name" :value="item.id" />
           </el-select>
         </el-form-item>
-        <el-form-item label="跳转地址">
-          <el-input v-model="formTemp.url" />
+        <el-form-item label="跳转类型">
+          <el-radio-group v-model="formTemp.type">
+            <el-radio-button v-for="(item, index) in navigationTypeList" :key="item.index" :label="index">{{ item }}</el-radio-button>
+          </el-radio-group>
         </el-form-item>
+
+        <template v-if="formTemp.type === '1' || formTemp.type === '2'">
+          <el-form-item label="文章分类">
+            <el-select v-model="formTemp.category_id" @change="getArticleList">
+              <el-option v-for="item in categoryList" :key="item.index" :value="item.id" :label="item.name" />
+            </el-select>
+          </el-form-item>
+
+          <el-form-item v-show="formTemp.type === '1'" label="文章列表">
+            <el-select v-model="formTemp.article_id">
+              <el-option v-for="item in articleList" :key="item.index" :value="item.id" :label="item.keyword" />
+            </el-select>
+          </el-form-item>
+
+          <el-form-item label="自定义跳转地址">
+            <el-input v-model="formTemp.url" />
+          </el-form-item>
+        </template>
+
       </el-form>
 
       <div slot="footer" class="dialog-footer">
@@ -87,7 +114,7 @@
 
 <script>
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
-import { navigationList, navigationAdd, navigationStatus, navigationPList, navigationEdit } from '@/api/juan'
+import { navigationTypeList, articleCategoryList, navigationList, navigationAdd, navigationStatus, navigationPList, navigationEdit, acAllList } from '@/api/juan'
 export default {
   components: { Pagination },
   data: function() {
@@ -99,7 +126,10 @@ export default {
         name: '',
         pname: '',
         status: 1,
-        pid: 0
+        pid: 0,
+        type: '1',
+        article_id: '',
+        category_id: ''
       },
       dialogFormVisible: false,
       dialogStatus: '',
@@ -117,13 +147,33 @@ export default {
         sort: '+id'
       },
       rules: {},
-      pList: []
+      pList: [],
+      categoryList: [],
+      articleList: [],
+      navigationTypeList: []
     }
   },
   created() {
     this.getList()
+    this.getCategoryList()
+    this.getNavigationTypeList()
   },
   methods: {
+    getCategoryList() {
+      acAllList().then(response => {
+        this.categoryList = response.data
+      })
+    },
+    getNavigationTypeList() {
+      navigationTypeList().then(response => {
+        this.navigationTypeList = response.data
+      })
+    },
+    getArticleList() {
+      articleCategoryList({ category_id: this.formTemp.category_id }).then(response => {
+        this.articleList = response.data
+      })
+    },
     handleCreate() {
       this.pList = this.navigationPList(0)
       this.resetTemp()
@@ -138,7 +188,10 @@ export default {
         name: '',
         pname: '',
         status: 1,
-        pid: 0
+        pid: 0,
+        type: '1',
+        article_id: '',
+        category_id: ''
       }
     },
     getList() {

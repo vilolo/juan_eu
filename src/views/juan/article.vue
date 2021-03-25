@@ -102,6 +102,9 @@
         <el-form-item label="标题">
           <el-input v-model="formTemp.title" />
         </el-form-item>
+        <el-form-item label="跳转关键词">
+          <el-input v-model="formTemp.keyword" />
+        </el-form-item>
         <el-form-item label="LOGO">
           <el-upload
             class="avatar-uploader"
@@ -116,7 +119,7 @@
         </el-form-item>
         <el-form-item label="内容">
           <!-- <el-input v-model="formTemp.contents" type="textarea" /> -->
-          <div v-html="contents" />
+          <!-- <div v-html="formTemp.contents" /> -->
           <tinymce v-model="formTemp.contents" :height="300" />
         </el-form-item>
       </el-form>
@@ -173,6 +176,7 @@ export default {
         contents: '',
         cover: '',
         category_id: '',
+        keyword: '',
         status: 1
       },
       imageUrl: '',
@@ -205,6 +209,7 @@ export default {
         contents: '',
         cover: '',
         category_id: '',
+        keyword: '',
         status: 1
       }
     },
@@ -235,16 +240,21 @@ export default {
       this.formTemp.cover = res.data.url
     },
     beforeAvatarUpload(file) {
-      const isJPG = file.type === 'image/jpeg'
+      const imgTypeList = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif']
+      // const isJPG = file.type === 'image/jpeg'
+      const isRightImg = imgTypeList.indexOf(file.type)
       const isLt2M = file.size / 1024 / 1024 < 8
 
-      if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!')
+      // if (!isJPG) {
+      //   this.$message.error('上传图片只能是 JPG 格式!')
+      // }
+      if (isRightImg < 0) {
+        this.$message.error('上传图片格式不正确!')
       }
       if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 8MB!')
+        this.$message.error('上传图片大小不能超过 8MB!')
       }
-      return isJPG && isLt2M
+      return isRightImg && isLt2M
     },
     createData() {
       this.$refs['dataForm'].validate((valid) => {

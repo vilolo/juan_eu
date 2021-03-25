@@ -35,6 +35,19 @@
           <span>{{ row.desc1 }}</span>
         </template>
       </el-table-column>
+
+      <el-table-column label="跳转类型">
+        <template slot-scope="{row}">
+          <span>{{ row.type_name }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="跳转目标">
+        <template slot-scope="{row}">
+          <span>{{ row.cname }}</span>
+          <span v-if="row.type === 1">/{{ row.keyword }}</span>
+        </template>
+      </el-table-column>
+
       <el-table-column label="创建时间">
         <template slot-scope="{row}">
           <span>{{ row.created_at }}</span>
@@ -96,20 +109,27 @@
         <el-form-item label="按钮名">
           <el-input v-model="formTemp.btn_name" />
         </el-form-item>
-        <el-form-item label="跳转地址">
-          <el-row>
-            选择文章：
-            <el-select v-model="formTemp.articalCategoryId">
-              <el-option value="1">asdf</el-option>
-            </el-select>
-            <el-select v-model="formTemp.articalId">
-              <el-option value="2">asdf</el-option>
-            </el-select>
-          </el-row>
-          <el-row>
-            <el-input v-model="formTemp.url" placeholder="自定义跳转URL" />
-          </el-row>
+
+        <el-form-item label="跳转类型">
+          <el-radio-group v-model="formTemp.type">
+            <el-radio-button v-for="(item, index) in navigationTypeList" :key="item.index" :label="index">{{ item }}</el-radio-button>
+          </el-radio-group>
         </el-form-item>
+
+        <template v-if="formTemp.type === '1' || formTemp.type === '2'">
+          <el-form-item label="文章分类">
+            <el-select v-model="formTemp.article_category_id" @change="getArticleList">
+              <el-option v-for="item in categoryList" :key="item.index" :value="item.id" :label="item.name" />
+            </el-select>
+          </el-form-item>
+
+          <el-form-item v-show="formTemp.type === '1'" label="文章列表">
+            <el-select v-model="formTemp.article_id">
+              <el-option v-for="item in articleList" :key="item.index" :value="item.id" :label="item.keyword" />
+            </el-select>
+          </el-form-item>
+        </template>
+
         <el-form-item label="排序">
           <el-input v-model="formTemp.sort" />
         </el-form-item>
@@ -139,7 +159,7 @@
 <script>
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 import waves from '@/directive/waves' // waves directive
-import { imgDescList, uploadApi, imgDescAdd, imgDescCategoryList, imgDescEdit, imgDescDel, changeStatus } from '@/api/juan'
+import { navigationTypeList, acAllList, articleCategoryList, imgDescList, uploadApi, imgDescAdd, imgDescCategoryList, imgDescEdit, imgDescDel, changeStatus } from '@/api/juan'
 import { getToken } from '@/utils/auth'
 export default {
   name: 'ComplexTable',
@@ -167,7 +187,10 @@ export default {
         url: '',
         sort: 50,
         articalCategoryId: '',
-        articalId: ''
+        articalId: '',
+        type: 1,
+        article_id: '',
+        article_category_id: ''
       },
 
       tableKey: 0,
@@ -191,7 +214,10 @@ export default {
       pvData: [],
       rules: {
         category_id: [{ required: true, message: '图文类型必选', trigger: 'blur' }]
-      }
+      },
+      categoryList: [],
+      articleList: [],
+      navigationTypeList: []
     }
   },
   created() {
@@ -199,23 +225,45 @@ export default {
     imgDescCategoryList().then(response => {
       this.imgDescCategoryList = response.data
     })
+    this.getCategoryList()
+    this.getNavigationTypeList()
   },
   methods: {
+    getNavigationTypeList() {
+      navigationTypeList().then(response => {
+        this.navigationTypeList = response.data
+      })
+    },
+    getCategoryList() {
+      acAllList().then(response => {
+        this.categoryList = response.data
+      })
+    },
+    getArticleList() {
+      articleCategoryList({ category_id: this.formTemp.article_category_id }).then(response => {
+        this.articleList = response.data
+      })
+    },
     handleAvatarSuccess(res, file) {
       this.imageUrl = URL.createObjectURL(file.raw)
       this.formTemp.img = res.data.url
     },
     beforeAvatarUpload(file) {
-      const isJPG = file.type === 'image/jpeg'
+      const imgTypeList = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif']
+      // const isJPG = file.type === 'image/jpeg'
+      const isRightImg = imgTypeList.indexOf(file.type)
       const isLt2M = file.size / 1024 / 1024 < 8
 
-      if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!')
+      // if (!isJPG) {
+      //   this.$message.error('上传图片只能是 JPG 格式!')
+      // }
+      if (isRightImg < 0) {
+        this.$message.error('上传图片格式不正确!')
       }
       if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 8MB!')
+        this.$message.error('上传图片大小不能超过 8MB!')
       }
-      return isJPG && isLt2M
+      return isRightImg && isLt2M
     },
 
     getList() {
@@ -249,7 +297,10 @@ export default {
         sort: 50,
         articalCategoryId: '',
         articalId: '',
-        status: 1
+        status: 1,
+        type: 1,
+        article_id: '',
+        article_category_id: ''
       }
     },
     handleCreate() {
