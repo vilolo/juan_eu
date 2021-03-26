@@ -1,6 +1,15 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
+      <el-select v-model="listQuery.category_id">
+        <el-option label="所有分类" value="" />
+        <el-option v-for="item in categoryList" :key="item.index" :value="item.id" :label="item.name" />
+      </el-select>
+
+      <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
+        Search
+      </el-button>
+
       <el-button
         class="filter-item"
         style="margin-left: 10px"
@@ -31,14 +40,27 @@
           <img v-if="row.cover" width="100px" :src="row.cover | imgFilter">
         </template>
       </el-table-column>
+      <el-table-column label="分类">
+        <template slot-scope="{ row }">
+          <span>{{ row.cname }}</span>
+        </template>
+      </el-table-column>
+
       <el-table-column label="Title">
         <template slot-scope="{ row }">
           <span>{{ row.title }}</span>
         </template>
       </el-table-column>
+
       <el-table-column label="创建时间">
         <template slot-scope="{ row }">
           <span>{{ row.created_at }}</span>
+        </template>
+      </el-table-column>
+
+      <el-table-column label="创建时间">
+        <template slot-scope="{ row }">
+          <el-checkbox v-model="row.is_home_carousel" :true-label="1" :false-label="0" @change="setOption({id:row.id,is_home_carousel:row.is_home_carousel})">首页轮播</el-checkbox>
         </template>
       </el-table-column>
 
@@ -140,7 +162,7 @@
 <script>
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 import Tinymce from '@/components/Tinymce'
-import { articleList, uploadApi, articleAdd, acAllList, articleEdit, articleStatus, articleDel } from '@/api/juan'
+import { setArticleOption, articleList, uploadApi, articleAdd, acAllList, articleEdit, articleStatus, articleDel } from '@/api/juan'
 import { getToken } from '@/utils/auth'
 export default {
   components: { Pagination, Tinymce },
@@ -158,6 +180,7 @@ export default {
       listLoading: true,
       listQuery: {
         page: 1,
+        category_id: '',
         limit: 20,
         importance: undefined,
         title: undefined,
@@ -188,6 +211,15 @@ export default {
     this.getCategoryList()
   },
   methods: {
+    setOption(data) {
+      setArticleOption(data).then(() => {
+        this.$notify.success('设置成功')
+      })
+    },
+    handleFilter() {
+      this.listQuery.page = 1
+      this.getList()
+    },
     getCategoryList() {
       acAllList().then(response => {
         this.categoryList = response.data
@@ -224,7 +256,7 @@ export default {
     },
     getList() {
       this.listLoading = true
-      articleList().then((response) => {
+      articleList(this.listQuery).then((response) => {
         this.list = response.data.data
         this.total = response.data.total
 

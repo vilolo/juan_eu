@@ -205,3 +205,11 @@ export function articleStatus(data) {
     data
   })
 }
+
+export function setArticleOption(data) {
+  return request({
+    url: '/article/setOption',
+    method: 'post',
+    data
+  })
+}

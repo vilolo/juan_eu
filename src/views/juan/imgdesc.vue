@@ -1,6 +1,15 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
+      <el-select v-model="listQuery.category_id">
+        <el-option label="所有分类" value="" />
+        <el-option v-for="(item, index) in imgDescCategoryList" :key="item.index" :label="item" :value="index" />
+      </el-select>
+
+      <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
+        Search
+      </el-button>
+
       <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">
         Add
       </el-button>
@@ -142,6 +151,13 @@
             />
           </div>
         </el-form-item>
+
+        <el-form-item v-if="formTemp.category_id == 4" label="其他设置">
+          <div class="editor-container">
+            <json-editor ref="jsonEditor" v-model="formTemp.json_data" />
+          </div>
+        </el-form-item>
+
       </el-form>
 
       <div slot="footer" class="dialog-footer">
@@ -157,18 +173,22 @@
 </template>
 
 <script>
+import JsonEditor from '@/components/JsonEditor'
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 import waves from '@/directive/waves' // waves directive
 import { navigationTypeList, acAllList, articleCategoryList, imgDescList, uploadApi, imgDescAdd, imgDescCategoryList, imgDescEdit, imgDescDel, changeStatus } from '@/api/juan'
 import { getToken } from '@/utils/auth'
 export default {
   name: 'ComplexTable',
-  components: { Pagination },
+  components: { Pagination, JsonEditor },
   directives: { waves },
   filters: {
     imgFilter(img) {
       return process.env.VUE_APP_BASE_API + img
     }
+    // jsonFilter(jsonData){
+    //   return JSON.parse(jsonData)
+    // }
   },
 
   data() {
@@ -190,7 +210,8 @@ export default {
         articalId: '',
         type: '1',
         article_id: '',
-        article_category_id: ''
+        article_category_id: '',
+        json_data: {}
       },
 
       tableKey: 0,
@@ -199,6 +220,7 @@ export default {
       listLoading: true,
       listQuery: {
         page: 1,
+        category_id: '',
         limit: 20,
         importance: undefined,
         title: undefined,
@@ -300,7 +322,8 @@ export default {
         status: 1,
         type: '1',
         article_id: '',
-        article_category_id: ''
+        article_category_id: '',
+        json_data: {}
       }
     },
     handleCreate() {
@@ -315,7 +338,8 @@ export default {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
           imgDescAdd(this.formTemp).then(response => {
-            this.list.unshift(this.formTemp)
+            // this.list.unshift(this.formTemp)
+            this.getList()
             this.dialogFormVisible = false
             this.$notify.success(response.message)
           })
@@ -327,6 +351,7 @@ export default {
       if (this.formTemp.img) {
         this.imageUrl = process.env.VUE_APP_BASE_API + this.formTemp.img
       }
+      this.formTemp.json_data = JSON.parse(this.formTemp.json_data)
       this.dialogStatus = 'update'
       this.dialogFormVisible = true
       this.$nextTick(() => {
@@ -340,9 +365,9 @@ export default {
           imgDescEdit(tempData).then(response => {
             // const index = this.list.findIndex(v => v.id === this.formTemp.id)
             // this.list.splice(index, 1, this.formTemp)
+            this.getList()
             this.dialogFormVisible = false
             this.$notify.success(response.message)
-            this.getList()
           })
         }
       })
@@ -390,5 +415,10 @@ export default {
     width: 178px;
     /* height: 178px; */
     display: block;
+  }
+
+  .editor-container{
+    position: relative;
+    height: 100%;
   }
 </style>
