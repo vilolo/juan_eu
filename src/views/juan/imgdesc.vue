@@ -97,7 +97,7 @@
       <el-form ref="dataForm" :rules="rules" :model="formTemp" label-position="right" label-width="80px">
         <el-form-item label="图文类型" prop="category_id">
           <el-select v-model="formTemp.category_id">
-            <el-option v-for="(item, index) in imgDescCategoryList" :key="item.index" :label="item" :value="index" />
+            <el-option v-for="(item, index) in imgDescCategoryList" :key="item.index" :label="item" :value="(parseInt(index))" />
           </el-select>
         </el-form-item>
         <el-form-item label="标题">

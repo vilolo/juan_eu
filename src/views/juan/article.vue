@@ -60,7 +60,15 @@
 
       <el-table-column label="创建时间">
         <template slot-scope="{ row }">
-          <el-checkbox v-model="row.is_home_carousel" :true-label="1" :false-label="0" @change="setOption({id:row.id,is_home_carousel:row.is_home_carousel})">首页轮播</el-checkbox>
+          <el-checkbox v-model="row.is_home_carousel" :true-label="1" :false-label="0" @change="setOption({id:row.id,is_home_carousel:row.is_home_carousel})">
+            首页轮播
+          </el-checkbox><br>
+          <el-checkbox v-model="row.is_home_list1" :true-label="1" :false-label="0" @change="setOption({id:row.id,is_home_list1:row.is_home_list1})">
+            首页产品列表1
+          </el-checkbox><br>
+          <el-checkbox v-model="row.is_home_list2" :true-label="1" :false-label="0" @change="setOption({id:row.id,is_home_list2:row.is_home_list2})">
+            首页产品列表2
+          </el-checkbox><br>
         </template>
       </el-table-column>
 
