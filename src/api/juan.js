@@ -90,6 +90,14 @@ export function navigationEdit(data) {
   })
 }
 
+export function navigationDel(data) {
+  return request({
+    url: '/navigation/del',
+    method: 'post',
+    data
+  })
+}
+
 export function navigationTypeList() {
   return request({
     url: '/navigation/typeList',

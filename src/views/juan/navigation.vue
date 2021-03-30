@@ -114,7 +114,7 @@
 
 <script>
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
-import { navigationTypeList, articleCategoryList, navigationList, navigationAdd, navigationStatus, navigationPList, navigationEdit, acAllList } from '@/api/juan'
+import { navigationDel, navigationTypeList, articleCategoryList, navigationList, navigationAdd, navigationStatus, navigationPList, navigationEdit, acAllList } from '@/api/juan'
 export default {
   components: { Pagination },
   data: function() {
@@ -181,6 +181,17 @@ export default {
       this.dialogFormVisible = true
       this.$nextTick(() => {
         this.$refs['dataForm'].clearValidate()
+      })
+    },
+    handleDelete(row, index) {
+      navigationDel({ id: row.id }).then(() => {
+        this.$notify({
+          title: 'Success',
+          message: 'Delete Successfully',
+          type: 'success',
+          duration: 2000
+        })
+        this.list.splice(index, 1)
       })
     },
     resetTemp() {
