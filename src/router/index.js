@@ -67,20 +67,33 @@ export const constantRoutes = [
     component: () => import('@/views/error-page/401'),
     hidden: true
   },
+  // {
+  //   path: '/',
+  //   component: Layout,
+  //   redirect: '/dashboard',
+  //   children: [
+  //     {
+  //       path: 'dashboard',
+  //       component: () => import('@/views/dashboard/index'),
+  //       name: 'Dashboard',
+  //       meta: { title: 'Dashboard', icon: 'dashboard', affix: true }
+  //     }
+  //   ]
+  // },
+  // juanRouter
   {
     path: '/',
     component: Layout,
-    redirect: '/dashboard',
+    redirect: '/company',
     children: [
       {
-        path: 'dashboard',
-        component: () => import('@/views/dashboard/index'),
-        name: 'Dashboard',
-        meta: { title: 'Dashboard', icon: 'dashboard', affix: true }
+        path: 'company',
+        component: () => import('@/views/juan/company'),
+        name: 'company',
+        meta: { title: '基础信息配置', icon: 'table' }
       }
     ]
   },
-  // juanRouter
   {
     path: '/navigation',
     component: Layout,
@@ -91,19 +104,6 @@ export const constantRoutes = [
         component: () => import('@/views/juan/navigation'),
         name: 'navigation',
         meta: { title: '导航栏配置', icon: 'table', affix: true }
-      }
-    ]
-  },
-  {
-    path: '/company',
-    component: Layout,
-    redirect: '/company',
-    children: [
-      {
-        path: 'company',
-        component: () => import('@/views/juan/company'),
-        name: 'company',
-        meta: { title: '基础信息配置', icon: 'table' }
       }
     ]
   },

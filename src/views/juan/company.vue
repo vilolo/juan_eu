@@ -25,7 +25,7 @@
       <el-form-item label="twitter">
         <el-input v-model="formTemp.twitter" />
       </el-form-item>
-      <el-form-item label="LOGO">
+      <el-form-item label="LOGO(104x40)">
         <el-upload
           class="avatar-uploader"
           :action="uploadApi"
