@@ -35,6 +35,11 @@
           <span v-if="row.type === 1">/{{ row.keyword }}</span>
         </template>
       </el-table-column>
+      <el-table-column label="排序">
+        <template slot-scope="{row}">
+          <span>{{ row.sort }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="状态">
         <template slot-scope="{row}">
           <el-switch
@@ -73,20 +78,23 @@
             <el-option v-for="item in pList" :key="item.index" :label="item.name" :value="item.id" />
           </el-select>
         </el-form-item>
+        <el-form-item label="排序">
+          <el-input v-model="formTemp.sort" />
+        </el-form-item>
         <el-form-item label="跳转类型">
           <el-radio-group v-model="formTemp.type">
             <el-radio-button v-for="(item, index) in navigationTypeList" :key="item.index" :label="index">{{ item }}</el-radio-button>
           </el-radio-group>
         </el-form-item>
 
-        <template v-if="formTemp.type === '1' || formTemp.type === '2'">
+        <template v-if="formTemp.type == 1 || formTemp.type == 2">
           <el-form-item label="文章分类">
             <el-select v-model="formTemp.category_id" @change="getArticleList">
               <el-option v-for="item in categoryList" :key="item.index" :value="item.id" :label="item.name" />
             </el-select>
           </el-form-item>
 
-          <el-form-item v-show="formTemp.type === '1'" label="文章列表">
+          <el-form-item v-show="formTemp.type == 1" label="文章列表">
             <el-select v-model="formTemp.article_id">
               <el-option v-for="item in articleList" :key="item.index" :value="item.id" :label="item.keyword" />
             </el-select>
@@ -127,6 +135,7 @@ export default {
         pname: '',
         status: 1,
         pid: 0,
+        sort: 10,
         type: '1',
         article_id: '',
         category_id: ''
@@ -200,6 +209,7 @@ export default {
         pname: '',
         status: 1,
         pid: 0,
+        sort: 10,
         type: '1',
         article_id: '',
         category_id: ''

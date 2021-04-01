@@ -314,7 +314,7 @@ export default {
           articleEdit(tempData).then(response => {
             // const index = this.list.findIndex(v => v.id === this.formTemp.id)
             // this.list.splice(index, 1, this.formTemp)
-            getList()
+            this.getList()
             this.dialogFormVisible = false
             this.$notify.success(response.message)
           })
