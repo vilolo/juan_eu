@@ -150,7 +150,7 @@
         <el-form-item label="内容">
           <!-- <el-input v-model="formTemp.contents" type="textarea" /> -->
           <!-- <div v-html="formTemp.contents" /> -->
-          <tinymce v-model="formTemp.contents" :height="300" />
+          <tinymce v-if="dialogFormVisible" v-model="formTemp.contents" :height="300" />
         </el-form-item>
       </el-form>
 
@@ -312,8 +312,9 @@ export default {
         if (valid) {
           const tempData = Object.assign({}, this.formTemp)
           articleEdit(tempData).then(response => {
-            const index = this.list.findIndex(v => v.id === this.formTemp.id)
-            this.list.splice(index, 1, this.formTemp)
+            // const index = this.list.findIndex(v => v.id === this.formTemp.id)
+            // this.list.splice(index, 1, this.formTemp)
+            getList()
             this.dialogFormVisible = false
             this.$notify.success(response.message)
           })

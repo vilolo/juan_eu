@@ -16,14 +16,29 @@
       <el-form-item label="手机号">
         <el-input v-model="formTemp.phone" />
       </el-form-item>
+      <el-form-item label="中文站地址">
+        <el-input v-model="formTemp.cn_url" />
+      </el-form-item>
       <el-form-item label="公司描述">
         <el-input v-model="formTemp.description" />
+      </el-form-item>
+      <el-form-item label="skype">
+        <el-input v-model="formTemp.skype" />
+      </el-form-item>
+      <el-form-item label="weixin">
+        <el-input v-model="formTemp.weixin" />
       </el-form-item>
       <el-form-item label="facebook">
         <el-input v-model="formTemp.facebook" />
       </el-form-item>
+      <el-form-item label="instagram">
+        <el-input v-model="formTemp.instagram" />
+      </el-form-item>
       <el-form-item label="twitter">
         <el-input v-model="formTemp.twitter" />
+      </el-form-item>
+      <el-form-item label="youtube">
+        <el-input v-model="formTemp.youtube" />
       </el-form-item>
       <el-form-item label="LOGO(104x40)">
         <el-upload
@@ -51,13 +66,17 @@ export default {
       formTemp: {
         name: '',
         phone: '',
+        cn_url: '',
         email: '',
         address: '',
         description: '',
         logo: '',
+        skype: '',
+        weixin: '',
         facebook: '',
+        instagram: '',
         twitter: '',
-        instagram: ''
+        youtube: ''
       },
       uploadApi: uploadApi + '?token=' + getToken(),
       rules: {},
