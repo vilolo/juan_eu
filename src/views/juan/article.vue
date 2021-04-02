@@ -58,7 +58,7 @@
         </template>
       </el-table-column>
 
-      <el-table-column label="创建时间">
+      <el-table-column label="设置展示位置">
         <template slot-scope="{ row }">
           <el-checkbox v-model="row.is_home_carousel" :true-label="1" :false-label="0" @change="setOption({id:row.id,is_home_carousel:row.is_home_carousel})">
             首页轮播
@@ -314,7 +314,7 @@ export default {
           articleEdit(tempData).then(response => {
             // const index = this.list.findIndex(v => v.id === this.formTemp.id)
             // this.list.splice(index, 1, this.formTemp)
-            getList()
+            this.getList()
             this.dialogFormVisible = false
             this.$notify.success(response.message)
           })

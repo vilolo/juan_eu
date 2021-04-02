@@ -147,6 +147,19 @@ export const constantRoutes = [
       //   meta: { title: '文章编辑' }
       // }
     ]
+  },
+  {
+    path: '/message',
+    component: Layout,
+    redirect: '/message',
+    children: [
+      {
+        path: 'message',
+        component: () => import('@/views/juan/message'),
+        name: 'message',
+        meta: { title: '客户留意', icon: 'table' }
+      }
+    ]
   }
 ]
 

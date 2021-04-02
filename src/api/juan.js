@@ -221,3 +221,19 @@ export function setArticleOption(data) {
     data
   })
 }
+
+export function messageList(params) {
+  return request({
+    url: '/customer_message/index',
+    method: 'get',
+    params: params
+  })
+}
+
+export function messageDel(data) {
+  return request({
+    url: '/customer_message/del',
+    method: 'post',
+    data
+  })
+}
