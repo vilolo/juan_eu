@@ -53,7 +53,7 @@
       <el-table-column label="跳转目标">
         <template slot-scope="{row}">
           <span>{{ row.cname }}</span>
-          <span v-if="row.type === 1">/{{ row.keyword }}</span>
+          <span v-if="row.type == 1">/{{ row.keyword }}</span>
         </template>
       </el-table-column>
 
@@ -347,6 +347,7 @@ export default {
       })
     },
     handleUpdate(row) {
+      this.imageUrl = ''
       this.formTemp = Object.assign({}, row) // copy obj
       if (this.formTemp.img) {
         this.imageUrl = process.env.VUE_APP_BASE_API + this.formTemp.img

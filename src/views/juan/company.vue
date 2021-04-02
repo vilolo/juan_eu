@@ -52,6 +52,15 @@
           <i v-else class="el-icon-plus avatar-uploader-icon" />
         </el-upload>
       </el-form-item>
+      <el-form-item label="copyright">
+        <div>
+          <el-input
+            v-model="formTemp.copyright"
+            :autosize="{ minRows: 5}"
+            type="textarea"
+          />
+        </div>
+      </el-form-item>
     </el-form>
 
   </div>
@@ -76,7 +85,8 @@ export default {
         facebook: '',
         instagram: '',
         twitter: '',
-        youtube: ''
+        youtube: '',
+        copyright: ''
       },
       uploadApi: uploadApi + '?token=' + getToken(),
       rules: {},

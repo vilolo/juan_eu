@@ -17,6 +17,9 @@ import plugins from './plugins'
 import toolbar from './toolbar'
 import load from './dynamicLoadScript'
 
+import { uploadApi } from '@/api/juan'
+import { getToken } from '@/utils/auth'
+
 // why use this cdn, detail see https://github.com/PanJiaChen/tinymce-all-in-one
 const tinymceCDN = 'https://cdn.jsdelivr.net/npm/tinymce-all-in-one@4.9.3/tinymce.min.js'
 
@@ -148,6 +151,10 @@ export default {
             _this.fullscreen = e.state
           })
         },
+
+        images_upload_url: uploadApi + '?type=2&token=' + getToken(),
+        images_upload_base_path: process.env.VUE_APP_BASE_API,
+
         // it will try to keep these URLs intact
         // https://www.tiny.cloud/docs-3x/reference/configuration/Configuration3x@convert_urls/
         // https://stackoverflow.com/questions/5196205/disable-tinymce-absolute-to-relative-url-conversions
